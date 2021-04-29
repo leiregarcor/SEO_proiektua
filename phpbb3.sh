@@ -1,6 +1,6 @@
 #PHPBB3 instalatu eta konfiguratzeko:
 #-----------------------------------#
-#-----------------------------------#
+
 
 #PHPBB3 zip fitxategia deskargatu eta deskonprimatu
 wget https://download.phpbb.com/pub/release/3.3/3.3.3/phpBB-3.3.3.zip 
@@ -11,13 +11,27 @@ sudo mv phpBB3/* /var/www/foroak/
 
 #Ondoren, apache konfiguratu beharko dugu localhost:8080 nabigatzailean jartzean phpBB3 orria ateratzeko.
 
-#konfigurazio fitxategia sortu
+#konfigurazio fitxategia sortu eta editatu
 sudo cp /etc/apache2/sites-available/000-default.conf /etc/apache2/sites-available/phpbb3.conf
-#editatu--> sed komandoarekin, substitute egiteko.
-sudo sed -i 's/:80>/:8080>/' phpbb3.conf #80 portua  zegoen tokian ,8080 jarriko dugu
+#editatu--> sed komandoak fitxategiak terminaletik editatzea ahalbideratzen du
+sudo sed -i 's/:80>/:8080>/' /etc/apache2/sites-available/phpbb3.conf #80 portua  zegoen tokian ,8080 jarriko dugu
 
-sudo sed -i 's/html/foroak/' phpbb3.conf
+sudo sed -i 's/html/foroak/' /etc/apache2/sites-available/phpbb3.conf
 
-#ez dut lortzen textu hori phpbb3.conf fitxategian sartzea.
-echo "<Directory /var/www/foroak> Options Indexes FollowSymLinks MultiViews AllowOverride All Order allow,deny allow from all </Directory>" | sed 's
+sudo sed -i "29i \n" /etc/apache2/sites-available/phpbb3.conf #lerro zuri bat gehitu 29. lerroan
+sudo sed -i  "29i <Directory /var/www/foroak> Options Indexes FollowSymLinks MultiViews AllowOverride All Order allow,deny allow from all </Directory>" /etc/apache2/sites-available/phpbb3.conf #29.lerroan textua pegatu
+
+#portuen fitxategian 8080-a entzuten jarri
+sudo sed -i 's/Listen 80/Listen 80 \nListen 8080/' /etc/apache2/ports.conf
+#"balioztatu"
+sudo a2ensite phpbb3.conf
+
+#apache berrabiarazi
+systemctl reload apache2
+
+#!!!!! KONPONTZEKO:
+	#dena borratzeko script bat egin probak egin ahal izateko.
+	# phpbb3.conf fitxategian sartzen dugun textuari \n-ak gehitu (lerro jauziak)
+	# sudo-arekin arazoak dauden konprobatu
+
 
