@@ -18,8 +18,9 @@ sudo sed -i 's/:80>/:8080>/' /etc/apache2/sites-available/phpbb3.conf #80 portua
 
 sudo sed -i 's/html/foroak/' /etc/apache2/sites-available/phpbb3.conf
 
-sudo sed -i "29i \n" /etc/apache2/sites-available/phpbb3.conf #lerro zuri bat gehitu 29. lerroan
-sudo sed -i  "29i <Directory /var/www/foroak> Options Indexes FollowSymLinks MultiViews AllowOverride All Order allow,deny allow from all </Directory>" /etc/apache2/sites-available/phpbb3.conf #29.lerroan textua pegatu
+#sudo sed -i "29i \n" /etc/apache2/sites-available/phpbb3.conf #lerro zuri bat gehitu 29. lerroan
+
+sudo sed -i  "29i <Directory /var/www/foroak>\nOptions Indexes FollowSymLinks MultiViews\nAllowOverride All\nOrder allow,deny\nallow from all\n</Directory>" /etc/apache2/sites-available/phpbb3.conf #29. lerroan textua pegatu
 
 #portuen fitxategian 8080-a entzuten jarri
 sudo sed -i 's/Listen 80/Listen 80 \nListen 8080/' /etc/apache2/ports.conf
@@ -27,11 +28,8 @@ sudo sed -i 's/Listen 80/Listen 80 \nListen 8080/' /etc/apache2/ports.conf
 sudo a2ensite phpbb3.conf
 
 #apache berrabiarazi
-systemctl reload apache2
-
-#!!!!! KONPONTZEKO:
-	#dena borratzeko script bat egin probak egin ahal izateko.
-	# phpbb3.conf fitxategian sartzen dugun textuari \n-ak gehitu (lerro jauziak)
-	# sudo-arekin arazoak dauden konprobatu
+sudo systemctl reload apache2
+sudo firefox localhost:8080
 
 
+#BADAGO
